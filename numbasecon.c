@@ -6,9 +6,8 @@
 int sctoi(char c);
 int validateInput(char type, char s[]);
 
-void toBinary(int type, char input[]);
-void toDecimal(int type, char input[]);
-
+void toType(char input[], int ans, int type);
+int getDecimal(int from, char input[]);
 
 int main(void)
 {   
@@ -18,7 +17,7 @@ int main(void)
     char input[LIMIT];
 
     printf("This is a number base conversion program\nPlease select the operation you wish to perform\n");
-    printf("[1] Binary\n[2] Decimal\n[3] Octal\n[4] Hexadecimal\n\n[Q/q] To Exit the program\n\n");
+    printf("[1] Binary\n[2] Decimal\n[3] Octal (Must: Preceed input with '\')\n[4] Hexadecimal (Optional: Preceed input with 0x or 0X)\n\n[Q/q] To Exit the program\n\n");
     
     // Prompt and validate from input
     while (!(from - '0'))
@@ -83,12 +82,15 @@ int main(void)
         else
         {
             // program execution if everything is valid
-            ;
+            int result = getDecimal(sctoi(from), input);
+
+            int type = sctoi(to);
+
+            toType(input, result, type);
+                    
+            printf("%s\n", input);
         }
     }
-    
-
-
 }
 
 // sctoi: return the integer representation of the digit character, return -1 upon non-digit input
@@ -142,6 +144,81 @@ int validateInput(char type, char s[])
         i++;
     }
 
-    // remove, maybe not
+    // Return 1 if everything goes well
     return 1;
+}
+
+int getDecimal(int from, char input[])
+{   
+    int result = 0;
+
+    for (int i = 0; input[i] != '\0'; i++)
+    {
+        switch (from)
+        {
+            case 1:
+                result = result * 2 + sctoi(input[i]);
+                break;
+            case 2:
+                result = result * 10 + sctoi(input[i]);
+                break;
+            case 3:
+                if (!i)
+                    i = 1;
+                result = result * 8 + sctoi(input[i]);
+                break;
+            case 4:
+                if (input[0] == '0' && tolower(input[1]) == 'x' && i < 1) // This thing is not efficient
+                    i = 2;
+                if (isalpha(input[i]))
+                    result = result * 16 + (tolower(input[i]) - 'a' + 10);
+                else
+                    result = result * 16 + sctoi(input[i]);
+                break;
+        }
+    }
+
+    return result;
+}
+
+void toType(char input[], int ans, int type)
+{
+    char reverse[LIMIT];
+
+    int i = 0;
+    
+    while (ans)
+    {
+        switch (type)
+        {
+            case 1:
+                reverse[i++] = '0' + (ans % 2);
+                ans /= 2;
+                break;
+            case 2:
+                reverse[i++] = '0' + (ans % 10);
+                ans /= 10;
+                break;
+            case 3:
+                reverse[i++] = '0' + (ans % 8);
+                ans /= 8;
+                break;
+            case 4:
+                if (ans % 16 > 9)
+                    reverse[i++] = 'A' + ((ans % 16) - 10);
+                else
+                    reverse[i++] = '0' + (ans % 16);
+                ans /= 16;
+                break;
+        }
+    }
+    reverse[i] = '\0';
+
+    int j = 0;
+    while (i)
+    {
+        input[j] = reverse[--i];
+        j++;
+    }
+    input[j] = '\0';
 }
