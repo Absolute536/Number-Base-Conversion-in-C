@@ -11,5 +11,5 @@ The program can convert the following number bases to each other:
 
 > [!WARNING]
 > The input validation is flawed, input that are more than a single character or is negative number may result in unexpected behaviour.
-> It is probably due to the nature of scanf() and also some edge cases are not taken into account of
+> It is probably due to the nature of scanf() and also some edge cases are not taken into account of\
 > Will update later....
