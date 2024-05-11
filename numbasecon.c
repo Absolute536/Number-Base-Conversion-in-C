@@ -12,31 +12,34 @@ int getDecimal(int from, char input[]);
 int main(void)
 {   
     // Initialise data
-    char from, to;
-    from = '0';
-    to = '0';
+    // 12/5/2024: Modified to use char array instead of char variable so that we can validate for > 1 character input
+    char from[] = "0";
+    char to[] = "0";
+ 
     char input[LIMIT];
 
     // Display the program operation
     printf("This is a number base conversion program\nPlease select the operation you wish to perform\n");
-    printf("[1] Binary\n[2] Decimal\n[3] Octal (Must: Preceed input with '\')\n[4] Hexadecimal (Optional: Preceed input with 0x or 0X)\n\n[Q/q] To Exit the program\n\n");
+    printf("[1] Binary\n[2] Decimal\n[3] Octal (Must: Preceed input with '\')\n[4] Hexadecimal (Optional: Preceed input with 0x or 0X)\n\n[Q/q] To Exit the program (anytime)\n\n");
     
     // Prompt and validate from input
-    while (!(from - '0'))
+    while (!(from[0] - '0'))
     {
         printf("From: ");
-        scanf(" %c", &from);
+        scanf("%s", from);
         
         // Remember order of precedence
         // arithmetic first
         // relational, then equality
         // after that it's logical (&& is higher than ||)
-        if ((isalpha(from) && tolower(from) - 'q') || (isdigit(from) && dctoi(from) > 4))
+
+        // if it is (alphabet AND not 'q') OR (it is a digit but > 4) OR (it has more than one character)
+        if ((isalpha(from[0]) && tolower(from[0]) - 'q') || (isdigit(from[0]) && dctoi(from[0]) > 4) || from[1] != '\0')
         {
-            from = '0';
+            from[0] = '0';
             printf("Invalid Input! Please Enter the correct selection\n");
         }
-        else if (!(tolower(from) - 'q'))
+        else if (!(tolower(from[0]) - 'q'))
         {
             printf("Program exited\n");
             return -1;
@@ -45,17 +48,17 @@ int main(void)
     }
     
     // Prompt and validate to input
-    while (!(to - '0'))
+    while (!(to[0] - '0'))
     {
         printf("To: ");
-        scanf(" %c", &to);
+        scanf("%s", to);
 
-        if ((isalpha(to) && tolower(to) - 'q') || (isdigit(to) && dctoi(to) > 4))
+        if ((isalpha(to[0]) && tolower(to[0]) - 'q') || (isdigit(to[0]) && dctoi(to[0]) > 4) || to[1] != '\0')
         {
-            to = '0';
+            to[0] = '0';
             printf("Invalid Input! Please Enter the correct selection\n");
         }
-        else if (!(tolower(to) - 'q'))
+        else if (!(tolower(to[0]) - 'q'))
         {
             printf("Program exited\n");
             return -1;
@@ -64,14 +67,14 @@ int main(void)
 
     // Get number to convert
     printf("Enter the number you wish to convert: ");
-    scanf(" %s", input);
+    scanf("%s", input);
 
     int validate = 0;
 
     // Validate the input number, re-prompt if needed
     while (!validate)
     {
-        if ((validate = validateInput(from, input)) == -1)
+        if ((validate = validateInput(from[0], input)) == -1)
         {
             printf("Program exited\n");
             return -1;
@@ -85,9 +88,9 @@ int main(void)
         else
         {
             // Program execution if everything is valid
-            int result = getDecimal(dctoi(from), input);
+            int result = getDecimal(dctoi(from[0]), input);
 
-            int type = dctoi(to);
+            int type = dctoi(to[0]);
 
             toType(input, result, type);
                     
