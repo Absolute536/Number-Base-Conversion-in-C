@@ -63,7 +63,7 @@ int main(void)
     }
 
     // Get number to convert
-    printf("Enter the number you wish to convert:\n");
+    printf("Enter the number you wish to convert: ");
     scanf(" %s", input);
 
     int validate = 0;
@@ -79,7 +79,7 @@ int main(void)
         
         if (!validate)
         {
-            printf("Invalid input! Enter the correct number.\n");
+            printf("\nInvalid input! Enter the number in the correct base.\nEnter the number you wish to convert: ");
             scanf(" %s", input);
         }
         else
@@ -91,7 +91,7 @@ int main(void)
 
             toType(input, result, type);
                     
-            printf("%s\n", input);
+            printf("Conversion result: %s\n", input);
         }
     }
 }
