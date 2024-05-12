@@ -21,7 +21,7 @@ int main(void)
 
     // Display the program operation
     printf("This is a number base conversion program\nPlease select the operation you wish to perform\n");
-    printf("[1] Binary\n[2] Decimal\n[3] Octal (Must: Preceed input with '\')\n[4] Hexadecimal (Optional: Preceed input with 0x or 0X)\n\n[Q/q] To Exit the program (anytime)\n\n");
+    printf("[1] Binary\n[2] Decimal\n[3] Octal (Must: Preceed input with '\\')\n[4] Hexadecimal (Optional: Preceed input with 0x or 0X)\n\n[Q/q] To Exit the program (anytime)\n\n");
     
     // Prompt and validate from input
     while (!(from[0] - '0'))
