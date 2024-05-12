@@ -13,8 +13,9 @@ int main(void)
 {   
     // Initialise data
     // 12/5/2024: Modified to use char array instead of char variable so that we can validate for > 1 character input
-    char from[] = "0";
-    char to[] = "0";
+    char from[LIMIT];
+    char to[LIMIT];
+    from[0] = to[0] = '0';
  
     char input[LIMIT];
 
@@ -67,7 +68,7 @@ int main(void)
 
     // Get number to convert
     printf("Enter the number you wish to convert: ");
-    scanf("%s", input);
+    scanf(" %s", input);
 
     int validate = 0;
 
@@ -95,6 +96,13 @@ int main(void)
             toType(input, result, type);
                     
             printf("Conversion result: %s\n", input);
+            printf("\nPress ENTER to terminate the program\n");
+
+            // Use two getchar(), the 1st to consume the '\n' from the previous input, the 2nd to wait for the user's ENTER ('\n') before terminating
+            getchar();
+            getchar();
+            
+            return 0;
         }
     }
 }
